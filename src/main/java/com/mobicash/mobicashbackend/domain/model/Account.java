@@ -5,39 +5,67 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
-@Data
 @Table(name = "accounts")
 public class Account {
 
-    // PK: número de cuenta
     @Id
-    @Column(name = "account_number", length = 20)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(nullable = false, unique = true)
     private String accountNumber;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
-    private User user;   // relación con User
+    @Column(length = 3)
+    private String cvc;
 
     @Column(nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
+    private BigDecimal balance;
 
-    @Column(length = 3, nullable = false)
-    private String cvc;  // 3 dígitos
+    // GETTERS Y SETTERS
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    public Long getId() {
+        return id;
+    }
 
-    @Enumerated(EnumType.STRING)
-    private AccountStatus status = AccountStatus.ACTIVE;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Column(name = "name_user")
-    private String nameUser; // nombre completo cacheado (opcional)
+    public User getUser() {
+        return user;
+    }
 
-    public enum AccountStatus {
-        ACTIVE,
-        BLOCKED
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getCvc() {
+        return cvc;
+    }
+
+    public void setCvc(String cvc) {
+        this.cvc = cvc;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

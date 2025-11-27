@@ -39,7 +39,6 @@ public class AccountService {
         account.setUser(user);
         account.setAccountNumber(generateAccountNumber());
         account.setCvc(generateCvc());
-        account.setNameUser(user.getFirstName() + " " + user.getLastName());
         account.setBalance(BigDecimal.ZERO);
 
         return accountRepository.save(account);

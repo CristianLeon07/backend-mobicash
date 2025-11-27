@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Data
 @Table(name = "transactions")
 public class Transaction {
 
@@ -18,28 +17,85 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "from_account_id")
+    private Account fromAccount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "to_account_id")
+    private Account toAccount;
+
     @Column(nullable = false)
     private BigDecimal amount;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    private String description;
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    @ManyToOne
-    @JoinColumn(name = "from_account_number")
-    private Account fromAccount;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "to_account_number")
-    private Account toAccount; // puede ser null en depósitos
+    private LocalDateTime createdAt;
 
     public enum TransactionType {
         DEPOSIT,
         WITHDRAW,
         TRANSFER
+    }
+
+    // GETTERS Y SETTERS
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Account getFromAccount() {
+        return fromAccount;
+    }
+
+    public void setFromAccount(Account fromAccount) {
+        this.fromAccount = fromAccount;
+    }
+
+    public Account getToAccount() {
+        return toAccount;
+    }
+
+    public void setToAccount(Account toAccount) {
+        this.toAccount = toAccount;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

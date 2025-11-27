@@ -4,7 +4,7 @@ package com.mobicash.mobicashbackend.infrastructure.security;
 
 import com.mobicash.mobicashbackend.domain.model.User;
 import com.mobicash.mobicashbackend.infrastructure.repository.UserRepository;
-import lombok.var;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

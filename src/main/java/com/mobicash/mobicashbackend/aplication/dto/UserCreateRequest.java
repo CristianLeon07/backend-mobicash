@@ -6,29 +6,71 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
-@Data
 public class UserCreateRequest {
 
-    @NotBlank
-    private String userId; // documento
-
-    @NotBlank
+    private String userId;
     private String firstName;
-
-    @NotBlank
     private String lastName;
-
-    @Email
-    @NotBlank
     private String email;
-
-    @Pattern(regexp = "\\d{4}", message = "El PIN debe tener exactamente 4 dígitos")
-    @NotBlank
+    private LocalDate birthDate;
+    private String photo;
     private String pin;
 
-    @NotNull
-    private LocalDate birthDate;
+    // GETTERS Y SETTERS
 
-    private String photo;
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
 }
-
