@@ -2,8 +2,12 @@ package com.mobicash.mobicashbackend.api;
 
 
 import com.mobicash.mobicashbackend.aplication.dto.UserCreateRequest;
+import com.mobicash.mobicashbackend.aplication.dto.UserLoginRequest;
+import com.mobicash.mobicashbackend.aplication.dto.UserLoginResponse;
 import com.mobicash.mobicashbackend.aplication.service.UserService;
 import com.mobicash.mobicashbackend.domain.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +32,19 @@ public class UserController {
     @PostMapping
     public User create(@Valid @RequestBody UserCreateRequest request) {
         return userService.createUser(request);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody UserLoginRequest request) {
+        try {
+            UserLoginResponse response = userService.login(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException ex) {
+            // 👇 devolvemos el mensaje en el body
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(ex.getMessage());
+        }
     }
 
     @GetMapping

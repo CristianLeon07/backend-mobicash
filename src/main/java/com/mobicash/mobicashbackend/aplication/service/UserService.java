@@ -3,6 +3,8 @@ package com.mobicash.mobicashbackend.aplication.service;
 
 
 import com.mobicash.mobicashbackend.aplication.dto.UserCreateRequest;
+import com.mobicash.mobicashbackend.aplication.dto.UserLoginRequest;
+import com.mobicash.mobicashbackend.aplication.dto.UserLoginResponse;
 import com.mobicash.mobicashbackend.domain.model.User;
 import com.mobicash.mobicashbackend.infrastructure.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,5 +51,33 @@ public class UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
     }
+
+    public UserLoginResponse login(UserLoginRequest request) {
+
+        System.out.println("Intento de login para userId=" + request.getUserId());
+
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        System.out.println("Usuario encontrado, email=" + user.getEmail());
+        System.out.println("PIN enviado=" + request.getPin());
+        System.out.println("PIN hash guardado=" + user.getPinHash());
+
+        boolean matches = passwordEncoder.matches(request.getPin(), user.getPinHash());
+
+        if (!matches) {
+            throw new RuntimeException("Usuario o PIN incorrecto");
+        }
+
+        return new UserLoginResponse(
+                user.getUserId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getBirthDate().toString(), // <--- IMPORTANTE: convertir LocalDate a String
+                user.getPhoto()
+        );
+    }
+
 }
 
