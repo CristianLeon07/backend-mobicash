@@ -27,12 +27,13 @@ public class UserService {
 
     public User createUser(UserCreateRequest request) {
 
-        if (userRepository.existsById(request.getUserId())) {
+        if (userRepository.findByDocumentUser(request.getDocumentUser()).isPresent()) {
             throw new RuntimeException("El usuario ya existe");
         }
 
         User user = new User();
         user.setUserId(request.getUserId());
+        user.setDocumentUser(request.getDocumentUser());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setEmail(request.getEmail());
@@ -54,9 +55,9 @@ public class UserService {
 
     public UserLoginResponse login(UserLoginRequest request) {
 
-        System.out.println("Intento de login para userId=" + request.getUserId());
+        System.out.println("Intento de login para userId=" + request.getDocumentUser());
 
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findByDocumentUser(request.getDocumentUser())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         System.out.println("Usuario encontrado, email=" + user.getEmail());
@@ -71,10 +72,11 @@ public class UserService {
 
         return new UserLoginResponse(
                 user.getUserId(),
+                user.getDocumentUser(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                user.getBirthDate().toString(), // <--- IMPORTANTE: convertir LocalDate a String
+                user.getBirthDate().toString(),
                 user.getPhoto()
         );
     }

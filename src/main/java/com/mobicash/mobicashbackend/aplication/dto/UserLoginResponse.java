@@ -1,10 +1,10 @@
 package com.mobicash.mobicashbackend.aplication.dto;
 
 
-
 public class UserLoginResponse {
 
     private String userId;
+    private String documentNumber;
     private String firstName;
     private String lastName;
     private String email;
@@ -15,12 +15,14 @@ public class UserLoginResponse {
     }
 
     public UserLoginResponse(String userId,
+                             String documentNumber,
                              String firstName,
                              String lastName,
                              String email,
                              String birthDate,
                              String photo) {
         this.userId = userId;
+        this.documentNumber = documentNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -36,6 +38,14 @@ public class UserLoginResponse {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
     }
 
     public String getFirstName() {

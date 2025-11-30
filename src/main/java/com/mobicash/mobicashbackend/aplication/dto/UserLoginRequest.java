@@ -6,17 +6,17 @@ import jakarta.validation.constraints.NotBlank;
 public class UserLoginRequest {
 
     @NotBlank
-    private String userId;
+    private String documentUser;
 
     @NotBlank
     private String pin;
 
-    public String getUserId() {
-        return userId;
+    public String getDocumentUser() {
+        return documentUser;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setDocumentUser(String documentUser) {
+        this.documentUser = documentUser;
     }
 
     public String getPin() {

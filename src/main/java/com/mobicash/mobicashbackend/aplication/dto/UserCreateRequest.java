@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class UserCreateRequest {
 
     private String userId;
+    private String documentUser;
     private String firstName;
     private String lastName;
     private String email;
@@ -24,6 +25,14 @@ public class UserCreateRequest {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getDocumentUser() {
+        return documentUser;
+    }
+
+    public void setDocumentUser(String documentUser) {
+        this.documentUser = documentUser;
     }
 
     public String getFirstName() {
