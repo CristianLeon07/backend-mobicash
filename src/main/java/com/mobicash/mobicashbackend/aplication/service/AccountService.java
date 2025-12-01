@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 
+
 @Service
 public class AccountService {
 
@@ -50,9 +51,17 @@ public class AccountService {
         return accountRepository.findByUser(user);
     }
 
+    // DEPÓSITO
+
     @Transactional
     public void deposit(String accountNumber, BigDecimal amount) {
-        Account account = accountRepository.findById(accountNumber)
+
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("El monto debe ser mayor que cero");
+        }
+
+        // Ahora buscamos por accountNumber, no por id
+        Account account = accountRepository.findByAccountNumber(accountNumber)
                 .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
 
         account.setBalance(account.getBalance().add(amount));
@@ -66,11 +75,20 @@ public class AccountService {
         transactionRepository.save(tx);
     }
 
+    // TRANSFERENCIA
+
     @Transactional
     public void transfer(String fromAccountNumber, String toAccountNumber, BigDecimal amount) {
-        Account from = accountRepository.findById(fromAccountNumber)
+
+        if (amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RuntimeException("El monto debe ser mayor que cero");
+        }
+
+        // 👇 Igual, buscamos por accountNumber
+        Account from = accountRepository.findByAccountNumber(fromAccountNumber)
                 .orElseThrow(() -> new RuntimeException("Cuenta origen no encontrada"));
-        Account to = accountRepository.findById(toAccountNumber)
+
+        Account to = accountRepository.findByAccountNumber(toAccountNumber)
                 .orElseThrow(() -> new RuntimeException("Cuenta destino no encontrada"));
 
         if (from.getBalance().compareTo(amount) < 0) {
@@ -91,6 +109,8 @@ public class AccountService {
         tx.setDescription("Transferencia");
         transactionRepository.save(tx);
     }
+
+    // UTILIDADES
 
     private String generateAccountNumber() {
         int num = new Random().nextInt(900000) + 100000; // 100000–999999
