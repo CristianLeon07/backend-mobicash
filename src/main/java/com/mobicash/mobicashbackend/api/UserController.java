@@ -4,6 +4,7 @@ package com.mobicash.mobicashbackend.api;
 import com.mobicash.mobicashbackend.aplication.dto.UserCreateRequest;
 import com.mobicash.mobicashbackend.aplication.dto.UserLoginRequest;
 import com.mobicash.mobicashbackend.aplication.dto.UserLoginResponse;
+import com.mobicash.mobicashbackend.aplication.dto.UserUpdateRequest;
 import com.mobicash.mobicashbackend.aplication.service.UserService;
 import com.mobicash.mobicashbackend.domain.model.User;
 import org.springframework.http.HttpStatus;
@@ -55,5 +56,14 @@ public class UserController {
     @GetMapping("/{userId}")
     public User getById(@PathVariable("userId") String userId) {
         return userService.getById(userId);
+    }
+
+    // endpoint para actualizar datos del usuario
+    @PutMapping("/{userId}")
+    public User update(
+            @PathVariable("userId") String userId,
+            @RequestBody UserUpdateRequest request
+    ) {
+        return userService.updateUser(userId, request);
     }
 }

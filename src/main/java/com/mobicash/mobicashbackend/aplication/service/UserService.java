@@ -5,6 +5,7 @@ package com.mobicash.mobicashbackend.aplication.service;
 import com.mobicash.mobicashbackend.aplication.dto.UserCreateRequest;
 import com.mobicash.mobicashbackend.aplication.dto.UserLoginRequest;
 import com.mobicash.mobicashbackend.aplication.dto.UserLoginResponse;
+import com.mobicash.mobicashbackend.aplication.dto.UserUpdateRequest;
 import com.mobicash.mobicashbackend.domain.model.User;
 import com.mobicash.mobicashbackend.infrastructure.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -80,6 +81,30 @@ public class UserService {
                 user.getPhoto()
         );
     }
+
+    public User updateUser(String userId, UserUpdateRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        if (request.getFirstName() != null) {
+            user.setFirstName(request.getFirstName());
+        }
+        if (request.getLastName() != null) {
+            user.setLastName(request.getLastName());
+        }
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+        if (request.getBirthDate() != null) {
+            user.setBirthDate(request.getBirthDate());
+        }
+        if (request.getPhoto() != null) {
+            user.setPhoto(request.getPhoto());
+        }
+
+        return userRepository.save(user);
+    }
+
 
 }
 
